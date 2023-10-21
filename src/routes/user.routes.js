@@ -1,26 +1,18 @@
 import { Router } from 'express';
-import passport from 'passport';
-import * as UserController from '../controllers/user.controller.js';
+import { isLogged, notLogged } from '../utils/secure.middleware.js';
 
 const userRouter = Router();
 
-userRouter.post(
-  '/register',
-  passport.authenticate('register'),
-  async (req, res) => {
-    res.status(200).json({
-      user: req.user,
-    });
-  }
-);
-
-userRouter.post('/login', passport.authenticate('login'), async (req, res) => {
-  res.status(200).json({
-    user: req.user,
-  });
+userRouter.get('/register', (req, res) => {
+  res.render('register');
 });
 
-userRouter.get('/current', UserController.GETCurrent);
-userRouter.get('/:uid', UserController.GETUserbyId);
+userRouter.get('/login', isLogged, (req, res) => {
+  res.render('login');
+});
+
+userRouter.get('/products', notLogged);
+
+userRouter.get('/current', notLogged, (req, res) => {});
 
 export default userRouter;

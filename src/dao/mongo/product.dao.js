@@ -1,4 +1,4 @@
-import ProductModel from "../../models/product.model.js";
+import ProductModel from '../../models/product.model.js';
 
 class ProductDao {
   constructor() {}
@@ -8,7 +8,7 @@ class ProductDao {
   }
 
   async find() {
-    return await ProductModel.find({});
+    return await ProductModel.find({}).lean();
   }
 
   async findById(pid) {
