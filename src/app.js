@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import productsRouter from './routes/products.routes.js';
 import cartRouter from './routes/cart.routes.js';
 import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
 import viewsRouter from './routes/views.routes.js';
 import ProductModel from './models/product.model.js';
 /* import session from 'express-session';
@@ -62,6 +63,7 @@ app.use(express.static(`${__dirname}/../public`));
 app.use('/api/products', productsRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 app.use('/', viewsRouter);
 
 /* const products = [

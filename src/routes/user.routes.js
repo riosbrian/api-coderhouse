@@ -1,18 +1,11 @@
 import { Router } from 'express';
-import { isLogged, notLogged } from '../utils/secure.middleware.js';
+import * as UserController from '../controllers/user.controller.js';
+import { inyectUser } from '../utils/secure.middleware.js';
 
 const userRouter = Router();
 
-userRouter.get('/register', (req, res) => {
-  res.render('register');
-});
-
-userRouter.get('/login', isLogged, (req, res) => {
-  res.render('login');
-});
-
-userRouter.get('/products', notLogged);
-
-userRouter.get('/current', notLogged, (req, res) => {});
+userRouter
+  .get('/current', inyectUser, UserController.GETCurrent)
+  .get('/:uid', UserController.GETUserByID);
 
 export default userRouter;

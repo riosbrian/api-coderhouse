@@ -31,12 +31,21 @@ export const POSTLoginUser = async (req, res) => {
     httpOnly: true,
   });
 
-  // 3. Envio la respuesta al front
+  // 3. Inyecto el req.user
+  req.user = currentUser.payload;
+
+  // 4. Envio la respuesta al front
   res.status(currentUser.code).send(currentUser);
 };
 
 export const POSTLogoutUser = async (req, res) => {
+  // 1. Elimino el token y la cookie
   res.clearCookie('accessToken');
+
+  // 2. Limpio el req.user
+  delete req.user;
+
+  // 3. Envio la respuesta al front
   res.status(200).send({
     error: false,
     code: 200,

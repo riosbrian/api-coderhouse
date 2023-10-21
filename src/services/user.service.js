@@ -1,4 +1,5 @@
 import UserDao from '../dao/mongo/user.dao.js';
+import UserDTO from '../dto/user.dto.js';
 import * as bcryptUtils from '../utils/bcrypt.utils.js';
 
 export const createNewUser = async (data) => {
@@ -40,16 +41,35 @@ export const loginUser = async (email, password) => {
 export const getUserById = async (uid) => {
   try {
     const user = await UserDao.findById(uid);
+    const userDTO = new UserDTO(user);
     return {
       code: 200,
-      status: 'success',
-      user,
+      error: false,
+      user: userDTO,
     };
   } catch (error) {
     return {
       code: 400,
-      status: 'error',
+      error: true,
       message: `error fetching user ${error}`,
+    };
+  }
+};
+
+export const getCurrentUser = async (uid) => {
+  try {
+    const user = await UserDao.findById(uid);
+    const userDTO = new UserDTO(user);
+    return {
+      code: 200,
+      error: false,
+      user: userDTO,
+    };
+  } catch (error) {
+    return {
+      code: 400,
+      error: true,
+      message: error,
     };
   }
 };
