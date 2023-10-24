@@ -17,6 +17,8 @@ import ProductModel from './models/product.model.js';
 import MongoStore from 'connect-mongo'; */
 import CartModel from './models/cart.model.js';
 /* import UserModel from './models/user.model.js'; */
+import winston from './utils/winston.js';
+import errorHandler from './utils/errorHandler.js';
 
 const app = express();
 
@@ -35,6 +37,7 @@ app.set('view engine', 'handlebars');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(winston);
 
 // SESSION CONFIG
 /* app.use(
@@ -65,6 +68,14 @@ app.use('/api/cart', cartRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/', viewsRouter);
+
+app.get('/api/test', (req, res) => {
+  let response = response + request;
+  return res.status(200).json({
+    message: 'logger HTTP',
+    response: true,
+  });
+});
 
 /* const products = [
   {
@@ -170,6 +181,8 @@ app.use('/', viewsRouter);
 /* await CartModel.deleteMany({}); */
 /* await ProductModel.deleteMany({}); */
 /* await UserModel.deleteMany({}); */
+
+app.use(errorHandler);
 
 app.listen(config.PORT, () => {
   console.log(`Server running at PORT: ${config.PORT}`);
