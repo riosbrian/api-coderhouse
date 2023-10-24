@@ -5,6 +5,11 @@ export const GETCartById = async (req, res) => {
   res.status(cart.code).json(cart);
 };
 
+export const GETPurchase = async (req, res) => {
+  const user = req.user;
+  const { cid } = req.params;
+};
+
 export const AddProduct = async (req, res) => {
   const { pid } = req.params;
   const cart = await CartService.addProduct(req.cartID, pid);
